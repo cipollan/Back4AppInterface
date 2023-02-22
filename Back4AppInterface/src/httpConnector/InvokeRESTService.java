@@ -25,10 +25,12 @@ public class InvokeRESTService {
 		System.out.println("InvokeRESTService.getToken (BEGIN)"  );
 
 		String response = "";
+		
 		try {
+			
 			System.out.println("BEGIN getToken urlHttps=" + url);
 			java.net.HttpURLConnection conn = getConnectionHttps(url);
-			conn.setRequestMethod("POST");
+			conn.setRequestMethod("GET");
 			String credentials = user + ":" + password;
 			byte[] message = "hello world".getBytes("UTF-8");
 			String encoded = DatatypeConverter.printBase64Binary(message);
@@ -39,35 +41,29 @@ public class InvokeRESTService {
 
 			System.out.println("getToken encoding3=" + encoding3);
 			
-			conn.setRequestProperty("Content-Type", "application/json");
-			conn.setRequestProperty("Authorization", "Basic " + encoding3);
-			conn.setRequestProperty(property.getProperty("app.appid.tag"),property.getProperty("app.appid.tag"));
-			conn.setRequestProperty(property.getProperty("app.appid"),property.getProperty("app.appid"));
-			conn.setRequestProperty(property.getProperty("app.restapi.tag"),property.getProperty("app.restapi.tag"));
-			conn.setRequestProperty(property.getProperty("app.restapi.key"),property.getProperty("app.restapi.key"));
 			conn.setDoOutput(true);
 			
+			System.out.println("BEGIN getToken urlHttps=" + url);
+			System.out.println("getToken encoding3=" + encoding3);
+			
+			conn.setRequestProperty("Content-Type", "application/json");
+			conn.setRequestProperty("Authorization", "Basic " + encoding3);
+			conn.setRequestProperty(property.getProperty("app.appid.tag"),property.getProperty("app.appid"));
+			conn.setRequestProperty(property.getProperty("app.restapi.tag"),property.getProperty("app.restapi.key"));
+			 
 			
 			System.out.println("WRITE OUTPUT STREAM AX-getToken  ");
 			java.io.OutputStream out = conn.getOutputStream();
-			System.out.println("BX-getToken  ");
 			java.io.Writer wr = new java.io.OutputStreamWriter(out);
-			System.out.println("CX-getToken  ");
-		 
-			System.out.println("DX-getToken  ");
 			wr.close();
-			System.out.println("WRITE OUTPUT STREAM EX-getToken  ");
 			
-			
-			
-			System.out.println("READ OUTPUT STREAM X-getToken  ");
 			java.io.InputStream  in = conn.getInputStream();
 			System.out.println("X1-getToken  ");
 			java.io.Reader       reader = new java.io.InputStreamReader(in);
 			System.out.println("X2-getToken  ");
 			java.io.StringWriter sw = new java.io.StringWriter();
 			System.out.println("WRITE OUTPUT STREAM X3-getToken  ");
-			char[] buf = new char[500];
+			char[] buf = new char[5000];
 			int bread = 0;
 
 			while ((bread = reader.read(buf)) != -1) 
@@ -95,40 +91,133 @@ public class InvokeRESTService {
 		}
 		System.out.println("EnD getToken response=" + response);
 		System.out.println("InvokeRESTService.getToken (END)"  );
+		System.out.println("                                 "  );
 		return response;
 	}
 
-	public static String invokeRestApi(String method, 
-			String url, Properties property,
-			String token, 
-			String jsonInput) throws Exception 
+	
+	
+	public static String invokeRestApi(String method,String url, Properties property,
+			String user, 
+			String password) throws Exception {
+		
+		System.out.println("InvokeRESTService.invokeRestApi (BEGIN)"  );
+
+		String response = "";
+		
+		try {
+			
+			System.out.println("BEGIN getToken urlHttps=" + url);
+			java.net.HttpURLConnection conn = getConnectionHttps(url);
+			conn.setRequestMethod(method);
+			String credentials = user + ":" + password;
+			byte[] message = "hello world".getBytes("UTF-8");
+			String encoded = DatatypeConverter.printBase64Binary(message);
+			System.out.println("getToken encoded=" + encoded);
+			
+			String encoding3 = DatatypeConverter.printBase64Binary(credentials.getBytes());
+			encoding3 = encoding3.replaceAll("\n", "");
+
+			System.out.println("getToken encoding3=" + encoding3);
+			
+			conn.setDoOutput(true);
+			
+			System.out.println("BEGIN getToken urlHttps=" + url);
+			System.out.println("getToken encoding3=" + encoding3);
+			
+			conn.setRequestProperty("Content-Type", "application/json");
+			conn.setRequestProperty("Authorization", "Basic " + encoding3);
+			conn.setRequestProperty(property.getProperty("app.appid.tag"),property.getProperty("app.appid"));
+			conn.setRequestProperty(property.getProperty("app.restapi.tag"),property.getProperty("app.restapi.key"));
+			 
+			
+			System.out.println("WRITE OUTPUT STREAM AX-getToken  ");
+			java.io.OutputStream out = conn.getOutputStream();
+			System.out.println("BX-getToken  ");
+			java.io.Writer wr = new java.io.OutputStreamWriter(out);
+			 
+			wr.close();
+			System.out.println("WRITE OUTPUT STREAM EX-getToken  ");
+			
+			
+			
+			System.out.println("READ OUTPUT STREAM X-getToken  ");
+			java.io.InputStream  in = conn.getInputStream();
+			System.out.println("X1-getToken  ");
+			java.io.Reader       reader = new java.io.InputStreamReader(in);
+			System.out.println("X2-getToken  ");
+			java.io.StringWriter sw = new java.io.StringWriter();
+			System.out.println("WRITE OUTPUT STREAM X3-getToken  ");
+			char[] buf = new char[5000];
+			int bread = 0;
+
+			while ((bread = reader.read(buf)) != -1) 
+			{
+				System.out.println("RESPONSE XX-getToken  bread:" + bread);
+				sw.write(buf, 0, bread);
+				response = response + new String(buf);
+				System.out.println("RESPONSE XX-getToken  response:" + response);
+			}
+
+			reader.close();
+
+			int inx = response.indexOf("201");
+			
+			System.out.println("RESPONSE inx:" + inx);
+			
+			if (response.indexOf("201") > 0) {
+			} else {
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("Exception ex=" + ex);
+			ex.printStackTrace(System.out);
+		}
+		System.out.println("EnD getToken response=" + response);
+		System.out.println("InvokeRESTService.invokeRestApi (END)"  );
+		System.out.println("                                 "  );
+		return response;
+	}
+	
+	public static String invokeRestApi2(	String method, 
+										String url, 
+										Properties property,
+										String token, 
+										String jsonInput) throws Exception 
 	{
 		String response = "";
 
-		System.out.println("InvokeRESTService.invokeRestApi (BEGIN)"  );
+		System.out.println("\nInvokeRESTService.invokeRestApi (BEGIN) " + method );
 		
 		try {
 			
 			System.out.println("invokeRestApi url      :" + url );
 			System.out.println("invokeRestApi token    :" + token );
 			System.out.println("invokeRestApi jsonInput:" + jsonInput );
+			System.out.println("invokeRestApi method   :" + method );
+			
+			
+			byte[] message = "hello world".getBytes("UTF-8");
+			String encoded = DatatypeConverter.printBase64Binary(message);
+			System.out.println("getToken encoded=" + encoded);
+			String credentials =  "aaaaaaaaaa";
+			String encoding3 = DatatypeConverter.printBase64Binary(credentials.getBytes());
+			encoding3 = encoding3.replaceAll("\n", "");
 			
 			java.net.HttpURLConnection conn = getConnectionHttps(url);
+			 
 			conn.setRequestMethod(method);
 			conn.setRequestProperty("Content-Type", "application/json");
+			conn.setRequestProperty("Authorization", "Basic " + encoding3);
+			conn.setRequestProperty(property.getProperty("app.appid.tag"),property.getProperty("app.appid"));
+			conn.setRequestProperty(property.getProperty("app.restapi.tag"),property.getProperty("app.restapi.key"));
+			
 			 
 			 
-			
-			conn.setRequestProperty(property.getProperty("app.appid.tag"),property.getProperty("app.appid.tag"));
-			conn.setRequestProperty(property.getProperty("app.appid"),property.getProperty("app.appid"));
-			conn.setRequestProperty(property.getProperty("app.restapi.tag"),property.getProperty("app.restapi.tag"));
-			conn.setRequestProperty(property.getProperty("app.restapi.key"),property.getProperty("app.restapi.key"));
-			
-
-
-			//conn.setRequestProperty("X-UserToken", "b7017c0b87a4a1187b8b54a83cbb35efa3176bc285088e1079a435c2d17190288e8bf275");
-
 			//conn.setRequestProperty("Authorization", "Bearer " + token);
+			
+			
 			conn.setDoOutput(true);
 			java.io.OutputStream out = conn.getOutputStream();
 			java.io.Writer wr = new java.io.OutputStreamWriter(out);
@@ -139,16 +228,17 @@ public class InvokeRESTService {
 			}
 
 			wr.close();
-			
+			//--------------------------------------------------------------
+			//--------------------------------------------------------------
 			
 			System.out.println("invokeRestApi leggo response     :"   );
-			 
 			java.io.InputStream in 		= conn.getInputStream();
 			java.io.Reader reader 		= new java.io.InputStreamReader(in);
 			java.io.StringWriter sw 	= new java.io.StringWriter();
-			char[] buf = new char[500];
+			 
+			char[] buf = new char[5000];
 			int bread = 0;
-			System.out.println("----About To Read Responset--");
+			 
 			while ((bread = reader.read(buf)) != -1) 
 			{
 				sw.write(buf, 0, bread);
@@ -159,8 +249,7 @@ public class InvokeRESTService {
 			System.out.println("----before closing reader--");
 			reader.close();
 			System.out.println("RESp**:=" + response);
-			int inx = response.indexOf("201");
-			// ---call--//
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			System.out.println("ex=" + ex);

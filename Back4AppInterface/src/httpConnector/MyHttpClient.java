@@ -64,7 +64,7 @@ public class MyHttpClient {
 	        getStubMethod.setHeader("machine", userInfo.getMachine().getMachineName());
 	        getStubMethod.setHeader("X-Parse-Application-Id","PyIyBIcTEKZbn9aAsE5TbpdbHGIpwMBE379u1THy");
 	        getStubMethod.setHeader("X-Parse-REST-API-Key","QrNbRBlaPgpRTrdS6C4nGz4Sb6VuFHvdqaz1RmJq");
-	        //getStubMethod.setHeader("X-UserToken","b7017c0b87a4a1187b8b54a83cbb35efa3176bc285088e1079a435c2d17190288e8bf275");
+	        getStubMethod.setHeader("X-UserToken","b7017c0b87a4a1187b8b54a83cbb35efa3176bc285088e1079a435c2d17190288e8bf275");
 	        
 	        System.out.println ( "  MyHttpClient.doCallApi 2 "  );
 	        

@@ -41,12 +41,12 @@ public class MyHttpGateWay {
 		int errCode = 200;
 		System.out.println ( " BEGIN MyHttpGateWay.doCallRest  "  ); 
 		 
-		String token              = InvokeRESTService.getToken(myUrl, catalogProps,user, password) ;
+		String token     = InvokeRESTService.getToken(myUrl, catalogProps,user, password) ;
 		String jsonInput = "Ciao:Ciao";
 		
 		System.out.println ( " END MyHttpGateWay.doCallRest token:" + token); 
-		
-		String response =  InvokeRESTService.invokeRestApi("GET", myUrl, catalogProps,token,  jsonInput);
+		String response     = InvokeRESTService.invokeRestApi( "GET", myUrl, catalogProps,user, password) ;
+		//String response =  InvokeRESTService.invokeRestApi("GET", myUrl, catalogProps,token,  jsonInput);
 		
 		System.out.println ( " END MyHttpGateWay.doCallRest response:" + response); 
 		return errCode;
