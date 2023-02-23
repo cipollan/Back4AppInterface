@@ -6,7 +6,8 @@ public class MyHttpGateWay {
 	
 	//private String myUrl = "https://myonionlab.altervista.org/php/myserviceprovider.php?TagFunct=CHECKCONNECTION&MachineName=MachineName&UserName=USER_NAME&Pwd=Ciao";
 	 
-	private String myUrl = "https://parseapi.back4app.com/classes/Access";
+	//private String myUrl = "https://parseapi.back4app.com/classes/Access";
+	private String myUrl = "";
 	
 	private Properties catalogProps;
 	 
@@ -56,8 +57,9 @@ public class MyHttpGateWay {
 	{
 		int errCode = 200;
 		System.out.println ( " BEGIN MyHttpGateWay.doCallRest2  " ); 
-		MyHttpClient myHttpClient = new MyHttpClient();
+		MyHttpClient myHttpClient = new MyHttpClient(myUrl,catalogProps);
 		myHttpClient.setStubsApiBaseUri(myUrl);
+		myHttpClient.setCatalogProps(catalogProps);
 		errCode = myHttpClient.doCallApi();
 		System.out.println ( " END MyHttpGateWay.doCallRest2  " + errCode); 
 		return errCode;

@@ -15,6 +15,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.http.util.EntityUtils;
+
 public class InvokeRESTService {
 	Properties property;
 
@@ -107,23 +109,23 @@ public class InvokeRESTService {
 		
 		try {
 			
-			System.out.println("BEGIN getToken urlHttps=" + url);
+			System.out.println("BEGIN InvokeRESTService.invokeRestApi urlHttps=" + url);
 			java.net.HttpURLConnection conn = getConnectionHttps(url);
 			conn.setRequestMethod(method);
 			String credentials = user + ":" + password;
 			byte[] message = "hello world".getBytes("UTF-8");
 			String encoded = DatatypeConverter.printBase64Binary(message);
-			System.out.println("getToken encoded=" + encoded);
+			System.out.println("InvokeRESTService.invokeRestApi encoded=" + encoded);
 			
 			String encoding3 = DatatypeConverter.printBase64Binary(credentials.getBytes());
 			encoding3 = encoding3.replaceAll("\n", "");
 
-			System.out.println("getToken encoding3=" + encoding3);
+			System.out.println("InvokeRESTService.invokeRestApi encoding3=" + encoding3);
 			
 			conn.setDoOutput(true);
 			
-			System.out.println("BEGIN getToken urlHttps=" + url);
-			System.out.println("getToken encoding3=" + encoding3);
+			System.out.println("BEGIN InvokeRESTService.invokeRestApi urlHttps=" + url);
+			System.out.println("InvokeRESTService.invokeRestApi encoding3=" + encoding3);
 			
 			conn.setRequestProperty("Content-Type", "application/json");
 			conn.setRequestProperty("Authorization", "Basic " + encoding3);
@@ -131,24 +133,27 @@ public class InvokeRESTService {
 			conn.setRequestProperty(property.getProperty("app.restapi.tag"),property.getProperty("app.restapi.key"));
 			 
 			
-			System.out.println("WRITE OUTPUT STREAM AX-getToken  ");
+			 
 			java.io.OutputStream out = conn.getOutputStream();
-			System.out.println("BX-getToken  ");
+			 
 			java.io.Writer wr = new java.io.OutputStreamWriter(out);
 			 
 			wr.close();
 			System.out.println("WRITE OUTPUT STREAM EX-getToken  ");
 			
 			
+			 
+			 
 			
-			System.out.println("READ OUTPUT STREAM X-getToken  ");
+			
+			System.out.println("READ OUTPUT STREAM InvokeRESTService.invokeRestApi  ");
 			java.io.InputStream  in = conn.getInputStream();
-			System.out.println("X1-getToken  ");
+			 
 			java.io.Reader       reader = new java.io.InputStreamReader(in);
-			System.out.println("X2-getToken  ");
+			 
 			java.io.StringWriter sw = new java.io.StringWriter();
-			System.out.println("WRITE OUTPUT STREAM X3-getToken  ");
-			char[] buf = new char[5000];
+			 
+			char[] buf = new char[20000];
 			int bread = 0;
 
 			while ((bread = reader.read(buf)) != -1) 
@@ -174,8 +179,8 @@ public class InvokeRESTService {
 			System.out.println("Exception ex=" + ex);
 			ex.printStackTrace(System.out);
 		}
-		System.out.println("EnD getToken response=" + response);
-		System.out.println("InvokeRESTService.invokeRestApi (END)"  );
+		 
+		System.out.println("InvokeRESTService.invokeRestApi (END)" + response );
 		System.out.println("                                 "  );
 		return response;
 	}
