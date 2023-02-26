@@ -1,6 +1,11 @@
 package httpConnector;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+
+import model.User;
+import model.UserResponse;
 
 public class MyHttpGateWay {
 	
@@ -23,18 +28,18 @@ public class MyHttpGateWay {
 	public MyHttpGateWay(Properties icatalogProps) {
 		super();
 		 
-		
+		System.out.println ("MyHttpGateWay (constructor) BEGIN" );
 		setCatalogProps(icatalogProps);
 		setMyUrl(catalogProps.getProperty("app.dbname"));
 		System.out.println ( " MyHttpGateWay CONSTRUCTOR "); 
 		
-		System.out.println ("app.dbname		:" + catalogProps.getProperty("app.dbname"));
+		System.out.println ("app.dbname		:<" + catalogProps.getProperty("app.dbname")+">");
 		System.out.println ("app.appid.tag			:" + catalogProps.getProperty("app.appid.tag"));
 		System.out.println ("app.appid		:" + catalogProps.getProperty("app.appid"));
 		System.out.println ("app.restapi.tag			:" + catalogProps.getProperty("app.restapi.tag"));
 		System.out.println ("app.restapi.key			:" + catalogProps.getProperty("app.restapi.key"));
 		 
-		
+		System.out.println ("MyHttpGateWay (constructor) END" );
 	}
 	
 	public int doCallRest() throws Exception
@@ -42,26 +47,42 @@ public class MyHttpGateWay {
 		int errCode = 200;
 		System.out.println ( " BEGIN MyHttpGateWay.doCallRest  "  ); 
 		 
-		String token     = InvokeRESTService.getToken(myUrl, catalogProps,user, password) ;
+		String token     = InvokeRESTService.getToken(myUrl+"/MyUser", catalogProps,user, password) ;
 		String jsonInput = "Ciao:Ciao";
 		
 		System.out.println ( " END MyHttpGateWay.doCallRest token:" + token); 
-		String response     = InvokeRESTService.invokeRestApi( "GET", myUrl, catalogProps,user, password) ;
+		String response     = InvokeRESTService.invokeRestApi( "GET", myUrl+"/MyUser", catalogProps,user, password) ;
 		//String response =  InvokeRESTService.invokeRestApi("GET", myUrl, catalogProps,token,  jsonInput);
 		
 		System.out.println ( " END MyHttpGateWay.doCallRest response:" + response); 
 		return errCode;
 	}
 	
-	public int doCallRest2() throws Exception
+	public <T> int doCallRest2() throws Exception
 	{
 		int errCode = 200;
 		System.out.println ( " BEGIN MyHttpGateWay.doCallRest2  " ); 
-		MyHttpClient myHttpClient = new MyHttpClient(myUrl,catalogProps);
-		myHttpClient.setStubsApiBaseUri(myUrl);
+		 
+		MyHttpClient<UserResponse> myHttpClient = new MyHttpClient<UserResponse>(myUrl+"MyUser",catalogProps);
+		 
+		myHttpClient.setStubsApiBaseUri(myUrl+"MyUser");
 		myHttpClient.setCatalogProps(catalogProps);
 		errCode = myHttpClient.doCallApi();
+		
 		System.out.println ( " END MyHttpGateWay.doCallRest2  " + errCode); 
+		
+		
+		 
+		 
+		myHttpClient.setStubsApiBaseUri(myUrl+"Address");
+		myHttpClient.setCatalogProps(catalogProps);
+		errCode = myHttpClient.doCallApi();
+		
+		
+		
+		
+		
+		
 		return errCode;
 	}
 

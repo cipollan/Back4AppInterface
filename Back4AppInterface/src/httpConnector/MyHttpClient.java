@@ -27,8 +27,35 @@ import model.User;
 import model.UserInfo;
 import model.UserResponse;
 
-public class MyHttpClient {
+public class MyHttpClient<T> {
 	
+	private T t;
+	
+	
+	public synchronized T getT() {
+		return t;
+	}
+
+	public synchronized void setT(T t) {
+		this.t = t;
+	}
+
+	public synchronized HttpClient getClient() {
+		return client;
+	}
+
+	public synchronized void setClient(HttpClient client) {
+		this.client = client;
+	}
+
+	public synchronized HttpResponse getHttpResponse() {
+		return httpResponse;
+	}
+
+	public synchronized void setHttpResponse(HttpResponse httpResponse) {
+		this.httpResponse = httpResponse;
+	}
+
 	public synchronized void showHeaders() {
 		// Headers
         Header[] headers = httpResponse.getAllHeaders();
@@ -93,11 +120,11 @@ public class MyHttpClient {
 		 
 	}
 	
-	public MyHttpClient(String stubsApiBaseUri, Properties catalogProps) throws URISyntaxException {
+	public MyHttpClient (String stubsApiBaseUri, Properties catalogProps) throws URISyntaxException {
 		super();
+		
 		this.stubsApiBaseUri  = stubsApiBaseUri;
 		this.catalogProps = catalogProps;
-		
 		this.client = HttpClients.createDefault();
 		this.builder = new URIBuilder(stubsApiBaseUri);
 		 
@@ -138,39 +165,17 @@ public class MyHttpClient {
 		
 	}
 	
-	public <T> int doGetApi(List<T> objList) 
-	{errCode = 200;
-    
-    System.out.println ( " BEGIN MyHttpClient.doCallApi  "  + stubsApiBaseUri );
-    
-	try 
+	
+	public int doMapResponseToUser(String response, List<User> objList ) 
 	{
-
-        httpResponse  = client.execute(getStubMethod);
-        System.out.println ( "  MyHttpClient.doCallApi 3 "  );
-        errCode = httpResponse.getStatusLine().getStatusCode();
-        System.out.println ( "  MyHttpClient.doCallApi 4 errCode:" + errCode  );
-      
-        if (errCode < 200 || errCode >= 300) {
-           // Handle non-2xx status code
-        	 System.out.println(errCode);
-            return errCode;
-        }
-        showHeaders();
-        String responseBody = EntityUtils.toString(httpResponse.getEntity());
+		errCode = 200;
+		
+		Gson gsonL = new Gson();
+	
+	    UserResponse userResponse = gsonL.fromJson(response, UserResponse.class);
+       
+        System.out.println ( " MyHttpClient.doMapResponseToUser yy responseBody <" + response + ">" );
         
-     // Define the type of the list of User objects
-        Type userListType = new TypeToken<List<User>>(){}.getType();
-        System.out.println ( " MyHttpClient.doCallApi xx userListType <" + userListType + ">" );
-        System.out.println ( " MyHttpClient.doCallApi xx responseBody <" + responseBody + ">" );
-        Gson gsonL = new Gson();
-        // Convert the JSON array to a list of User objects
-        
-     // Convert the JSON object to a UserResponse object
-        UserResponse userResponse = gsonL.fromJson(responseBody, UserResponse.class);
-        
-        
-        System.out.println ( " MyHttpClient.doCallApi yy responseBody <" + userResponse.getResults().size() + ">" );
         
         for (ListIterator<User> iter =  userResponse.getResults().listIterator(); iter.hasNext(); ) {
         	User element = iter.next();
@@ -181,6 +186,7 @@ public class MyHttpClient {
             // 4 - can use iter.set(...) to replace the current element
 
         	System.out.println ( " MyHttpClient.doCallApi zz element <" + element.getObjectId() + ">" );
+        	/*
         	System.out.println ( " MyHttpClient.doCallApi zz element.getCreatedAt <" + element.getCreatedAt() + ">" );
         	System.out.println ( " MyHttpClient.doCallApi zz element.updatedAt    <" + element.getUpdatedAt() + ">" );
         	System.out.println ( " MyHttpClient.doCallApi zz element.getLastName  <" + element.getLastName() + ">" );
@@ -189,14 +195,59 @@ public class MyHttpClient {
         	System.out.println ( " MyHttpClient.doCallApi zz element.getPhone     <" + element.getPhone() + ">" );
         	System.out.println ( " MyHttpClient.doCallApi zz element.getTel       <" + element.getTel() + ">" );
         	System.out.println ( " MyHttpClient.doCallApi zz element.getNome       <" + element.getNome() + ">" );
-        	
-        	boolean add = objList.add((T) element);
+        	*/
+        	boolean add = objList.add((User) element);
         }
         
+		return errCode;
+	}
+	
+	public int doMapResponse(List<T> objList) 
+	{
+		errCode = 200;
+		
+		return errCode;
+		
+	}
+	
+	
+	public int doGetApi(List<T> objList, Object u) 
+	{
+		errCode = 200;
+    
+		System.out.println ( " BEGIN MyHttpClient.doCallApi   :"  + stubsApiBaseUri );
+		System.out.println ( " BEGIN MyHttpClient.c.getClass():"  + u.getClass() );
+		 
+    
+	try 
+	{
+		System.out.println ( " BEGIN MyHttpClient.doGetApi getStubMethod:"  + getStubMethod );
+        httpResponse  = client.execute(getStubMethod);
+        System.out.println ( "  MyHttpClient.doCallApi 3 "  );
+        errCode = httpResponse.getStatusLine().getStatusCode();
+        System.out.println ( "  MyHttpClient.doCallApi 4 errCode:" + errCode  );
+      
+        if (errCode < 200 || errCode >= 300) {
+           // Handle non-2xx status code
+        	 System.out.println(errCode);
+            return errCode;
+        }
         
-  
-        System.out.println ( " MyHttpClient.doCallApi zz responseBody <" + responseBody + ">" ); 
-        System.out.println ( " MyHttpClient.doCallApi 4 responseBody<" + responseBody + ">" );
+        showHeaders();
+        String responseBody = EntityUtils.toString(httpResponse.getEntity());
+        
+        errCode = doMapResponseToUser(responseBody, (List<User>) objList ) ;
+        
+     // Define the type of the list of User objects
+        Type userListType = new TypeToken<List<T>>(){}.getType();
+        System.out.println ( " MyHttpClient.doCallApi xx userListType <" + userListType + ">" );
+        System.out.println ( " MyHttpClient.doCallApi xx responseBody <" + responseBody + ">" );
+        System.out.println ( " MyHttpClient.doCallApi xx responseBody <" + responseBody.getClass() + ">" );
+        System.out.println ( " MyHttpClient.doCallApi               u <" + u.getClass() + ">" );
+      
+    
+       // System.out.println ( " MyHttpClient.doCallApi zz responseBody <" + responseBody + ">" ); 
+       // System.out.println ( " MyHttpClient.doCallApi 4 responseBody<" + responseBody + ">" );
         System.out.println ( " MyHttpClient.doCallApi 4 errCode<" + errCode + ">" );
         System.out.println(errCode);
         
@@ -229,16 +280,14 @@ public class MyHttpClient {
 	public int doCallApi() 
 	{
 		errCode = 200;
-	    
         System.out.println ( " BEGIN MyHttpClient.doCallApi  "  + stubsApiBaseUri );
-        
         List<User> objList = new ArrayList<>();
        
-        
 		try 
 		{
-			 errCode = doGetApi(objList) ;
-			 System.out.println ( " BEGIN MyHttpClient.doCallApi objList.size() "  + objList.size() );
+			User u = new User();
+			errCode = doGetApi((List<T>) objList, u) ;
+			System.out.println ( " BEGIN MyHttpClient.doCallApi objList.size() "  + objList.size() );
 	        
 	       
 		} catch (Exception e  ) 
@@ -260,7 +309,7 @@ public class MyHttpClient {
 
 	public synchronized void setStubsApiBaseUri(String stubsApiBaseUri) 
 	{
-		this.stubsApiBaseUri = stubsApiBaseUri;
+		this.stubsApiBaseUri = stubsApiBaseUri.replaceAll("\\s+","");
 	}
 
 	public synchronized Properties getCatalogProps() {
