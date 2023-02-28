@@ -1,49 +1,14 @@
 package mainPackage;
 
-import java.io.BufferedReader;
 
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
-import java.util.regex.*;
-
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.github.lbovolini.mapper.ObjectMapper;
- 
 import com.google.gson.Gson; 
 import com.google.gson.GsonBuilder; 
 
 import httpConnector.MyHttpGateWay;
 import model.*;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.fasterxml.jackson.*;
-
-import utilPackage.*;
 
 public class MagicMain extends Thread {
 	
@@ -52,11 +17,6 @@ public class MagicMain extends Thread {
 	 * @throws IOException 
 	 * 
 	 */
-	
-	
-	
-	
-	 
 	
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
@@ -84,7 +44,7 @@ public class MagicMain extends Thread {
 			System.out.println ("app.restapi.tag			:" + catalogProps.getProperty("app.restapi.tag"));
 			System.out.println ("app.restapi.key			:" + catalogProps.getProperty("app.restapi.key"));
 			 
-		MyHttpGateWay myMyHttpGateWay = new MyHttpGateWay(catalogProps);
+			MyHttpGateWay myMyHttpGateWay = new MyHttpGateWay(catalogProps);
 		
 		 User user = new User();
 		 user.setId(001);
@@ -92,12 +52,14 @@ public class MagicMain extends Thread {
 		 user.setAge(53);
 		 user.setPhone("123456789101112131415");
 	      //Creating the ObjectMapper object
+		 
+		 GsonBuilder builder = new GsonBuilder(); 
+		 builder.setPrettyPrinting(); 
+		      
+		 Gson gson = builder.create(); 
+		 String jsonString = gson.toJson(user); 
+		      
 	      
-	      GsonBuilder builder = new GsonBuilder(); 
-	      builder.setPrettyPrinting(); 
-	      
-	      Gson gson = builder.create(); 
-	      String jsonString = gson.toJson(user); 
 	      System.out.println("----------------------------- JSON STRING --------------------------------------");  
 	      System.out.println(jsonString);  
 	      System.out.println("--------------------------------------------------------------------------------");

@@ -3,23 +3,31 @@ package httpConnector;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.*;
+import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Properties;
 
 import javax.xml.xpath.*;
-import org.apache.http.*;
-import org.apache.http.client.*;
-import org.apache.http.client.methods.*;
-import org.apache.http.client.utils.*;
-import org.apache.http.entity.*;
+
+import org.apache.http.Header;
+import org.apache.http.HttpMessage;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.*;
 import org.apache.http.util.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.xml.sax.*;
 
+
+
+import org.xml.sax.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -40,29 +48,26 @@ public class MyHttpClient<T> {
 		this.t = t;
 	}
 
-	public synchronized HttpClient getClient() {
+	public synchronized CloseableHttpClient getClient() {
 		return client;
 	}
 
-	public synchronized void setClient(HttpClient client) {
+	public synchronized void setClient(CloseableHttpClient client) {
 		this.client = client;
 	}
 
-	public synchronized HttpResponse getHttpResponse() {
+	public synchronized CloseableHttpResponse getHttpResponse() {
 		return httpResponse;
 	}
 
-	public synchronized void setHttpResponse(HttpResponse httpResponse) {
+	public synchronized void setHttpResponse(CloseableHttpResponse httpResponse) {
 		this.httpResponse = httpResponse;
 	}
 
 	public synchronized void showHeaders() {
 		// Headers
         Header[] headers = httpResponse.getAllHeaders();
-        for (int i = 0; i < headers.length; i++) 
-        {
-            System.out.println(i+")Header:" + headers[i]);
-        }
+        
 		 
 	}
 	
@@ -111,9 +116,9 @@ public class MyHttpClient<T> {
 	private HttpPost 	postStubMethod 		= null;
 	private HttpDelete 	deleteStubMethod	= null;
 	private HttpMessage httpMsg 			= null;
-	private HttpClient client 				= null;
+	private CloseableHttpClient client 				= null;
 	private URIBuilder builder 				= null;
-	private HttpResponse httpResponse 	= null;
+	private CloseableHttpResponse httpResponse 	= null;
 	
 	public MyHttpClient() {
 		super();
