@@ -31,6 +31,9 @@ import org.xml.sax.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import httputil.GenericResponse;
+import model.Address;
+import model.AddressResponse;
 import model.User;
 import model.UserInfo;
 import model.UserResponse;
@@ -171,6 +174,46 @@ public class MyHttpClient<T> {
 	}
 	
 	
+	
+	public int _doMapResponseToAddressResp (String response, AddressResponse addrResponse ) 
+	{
+		System.out.println ( " MyHttpClient.doMapResponseToAddressResp <>" );
+		errCode = 200;
+		
+		Gson gsonL = new Gson();
+		addrResponse =   gsonL.fromJson(response, AddressResponse.class);
+		
+		 
+       
+       
+        
+        
+        for (ListIterator<Address> iter =  addrResponse.getResults().listIterator(); iter.hasNext(); ) {
+        	Address element = iter.next();
+            // 1 - can call methods of element
+            // 2 - can use iter.remove() to remove the current element from the list
+            // 3 - can use iter.add(...) to insert a new element into the list
+            //     between element and iter->next()
+            // 4 - can use iter.set(...) to replace the current element
+
+        	System.out.println ( " MyHttpClient.doMapResponseToAddressResp<" + element.via + ">" );
+         /*
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getCreatedAt <" + element.getCreatedAt() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.updatedAt    <" + element.getUpdatedAt() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getLastName  <" + element.getLastName() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getId        <" + element.getId() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getAge       <" + element.getAge() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getPhone     <" + element.getPhone() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getTel       <" + element.getTel() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getNome       <" + element.getNome() + ">" );
+        */
+        	 
+        }
+        
+		return errCode;
+	}
+	
+	
 	public int doMapResponseToUser(String response, List<User> objList ) 
 	{
 		errCode = 200;
@@ -191,7 +234,7 @@ public class MyHttpClient<T> {
             // 4 - can use iter.set(...) to replace the current element
 
         	System.out.println ( " MyHttpClient.doCallApi zz element <" + element.getObjectId() + ">" );
-        	/*
+         /*
         	System.out.println ( " MyHttpClient.doCallApi zz element.getCreatedAt <" + element.getCreatedAt() + ">" );
         	System.out.println ( " MyHttpClient.doCallApi zz element.updatedAt    <" + element.getUpdatedAt() + ">" );
         	System.out.println ( " MyHttpClient.doCallApi zz element.getLastName  <" + element.getLastName() + ">" );
@@ -200,7 +243,7 @@ public class MyHttpClient<T> {
         	System.out.println ( " MyHttpClient.doCallApi zz element.getPhone     <" + element.getPhone() + ">" );
         	System.out.println ( " MyHttpClient.doCallApi zz element.getTel       <" + element.getTel() + ">" );
         	System.out.println ( " MyHttpClient.doCallApi zz element.getNome       <" + element.getNome() + ">" );
-        	*/
+        */
         	boolean add = objList.add((User) element);
         }
         
@@ -215,8 +258,72 @@ public class MyHttpClient<T> {
 		
 	}
 	
+	public int doGetApi(GenericResponse<T> ar, Object u) 
+	{
+		errCode = 200;
+		System.out.println ( " BEGIN MyHttpClient.doGetApi   :" + stubsApiBaseUri );
+		//System.out.println ( " BEGIN MyHttpClient.doGetApi.respTObj.getClass   :" + ar.t.getClass() );
+		System.out.println ( " BEGIN MyHttpClient.doGetApi():"  + u.getClass() );
+		
+		try 
+		{
+			System.out.println ( " BEGIN MyHttpClient.doGetApi getStubMethod:"  + getStubMethod );
+	        httpResponse  = client.execute(getStubMethod);
+	        
+	        errCode = httpResponse.getStatusLine().getStatusCode();
+	        System.out.println ( "  MyHttpClient.doCallApi 4 errCode:" + errCode  );
+	      
+	        if (errCode < 200 || errCode >= 300) {
+	           // Handle non-2xx status code
+	        	 System.out.println(errCode);
+	            return errCode;
+	        }
+	        
+	        showHeaders();
+	        String responseBody = EntityUtils.toString(httpResponse.getEntity());
+	        
+	        errCode = doMapResponseToObj(responseBody, ar) ;
+	        
+	       
+		} catch (Exception e  ) 
+		{
+			// TODO Auto-generated catch block
+			errCode = -1;
+			e.printStackTrace();
+		}
+	    
+		System.out.println ( " END MyHttpClient.doCallApi  <" + errCode );
+		
+		
+		return errCode;
+		
+	}
 	
-	public int doGetApi(List<T> objList, Object u) 
+	private int doMapResponseToObj (String responseBody, GenericResponse<T>  respTObj) 
+	{
+		
+		Gson gsonL = new Gson();
+		System.out.println ( " BEGIN MyHttpClient.doMapResponseToObj   :"  + respTObj.t.getClass());
+		if (UserResponse.class == (respTObj.t.getClass()))
+		{
+			System.out.println ( " BEGIN MyHttpClient.doMapResponseToObj   dentro UserResponse "   );
+			UserResponse    userResponse 		= gsonL.fromJson(responseBody, UserResponse.class);
+			T userResponse2 = (T) userResponse;
+			respTObj.t = userResponse2;
+		}
+			 
+		if (AddressResponse.class == (respTObj.t.getClass()))
+		{
+			System.out.println ( " BEGIN MyHttpClient.doMapResponseToObj   dentro AddressResponse "   );
+			AddressResponse addressResponse 	= gsonL.fromJson(responseBody, AddressResponse.class);
+			respTObj.t = (T) addressResponse;
+		}
+		 
+	     
+		return errCode;
+	}
+
+	public int doGetApi(List<User> objList, Object u) 
 	{
 		errCode = 200;
     
@@ -241,7 +348,7 @@ public class MyHttpClient<T> {
         showHeaders();
         String responseBody = EntityUtils.toString(httpResponse.getEntity());
         
-        errCode = doMapResponseToUser(responseBody, (List<User>) objList ) ;
+        //errCode = doMapResponseToUser(responseBody, (List<User>) userList ) ;
         
      // Define the type of the list of User objects
         Type userListType = new TypeToken<List<T>>(){}.getType();
@@ -291,7 +398,7 @@ public class MyHttpClient<T> {
 		try 
 		{
 			User u = new User();
-			errCode = doGetApi((List<T>) objList, u) ;
+			errCode = doGetApi( objList, u) ;
 			System.out.println ( " BEGIN MyHttpClient.doCallApi objList.size() "  + objList.size() );
 	        
 	       

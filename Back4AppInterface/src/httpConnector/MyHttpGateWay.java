@@ -2,8 +2,12 @@ package httpConnector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Properties;
 
+import httputil.GenericResponse;
+import model.Address;
+import model.AddressResponse;
 import model.User;
 import model.UserResponse;
 
@@ -70,15 +74,70 @@ public class MyHttpGateWay {
 		errCode = myHttpClient.doCallApi();
 		
 		System.out.println ( " END MyHttpGateWay.doCallRest2  " + errCode); 
-		
-		
-		 
-		 
 		myHttpClient.setStubsApiBaseUri(myUrl+"Address");
 		myHttpClient.setCatalogProps(catalogProps);
 		errCode = myHttpClient.doCallApi();
 		
 		
+		UserResponse uur = new UserResponse();
+		User u = new User();
+		GenericResponse<UserResponse> ur = new GenericResponse<UserResponse>(uur);
+		List<User> userList = new ArrayList<>();
+		errCode = myHttpClient.doGetApi(ur,  u) ;
+		
+		
+		for (ListIterator<User> iter =  ur.getT().getResults().listIterator(); iter.hasNext(); ) {
+        	User element = iter.next();
+            // 1 - can call methods of element
+            // 2 - can use iter.remove() to remove the current element from the list
+            // 3 - can use iter.add(...) to insert a new element into the list
+            //     between element and iter->next()
+            // 4 - can use iter.set(...) to replace the current element
+
+        	System.out.println ( " MyHttpClient.doCallApi zz element <" + element.getObjectId() + ">" );
+         
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getCreatedAt <" + element.getCreatedAt() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.updatedAt    <" + element.getUpdatedAt() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getLastName  <" + element.getLastName() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getId        <" + element.getId() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getAge       <" + element.getAge() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getPhone     <" + element.getPhone() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getTel       <" + element.getTel() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getNome       <" + element.getNome() + ">" );
+        
+        	 
+        }
+        
+		
+		
+		
+		Address a = new Address();
+		AddressResponse arr = new AddressResponse();
+		MyHttpClient<AddressResponse> myHttpClientAddr = new MyHttpClient<AddressResponse>(myUrl+"MyUser",catalogProps);
+		myHttpClientAddr.setStubsApiBaseUri(myUrl+"Address");
+		GenericResponse<AddressResponse> ar = new GenericResponse<AddressResponse>(arr);
+		errCode = myHttpClientAddr.doGetApi(ar,  a) ;
+		
+		for (ListIterator<Address> iter =  ar.getT().getResults().listIterator(); iter.hasNext(); ) {
+        	Address element = iter.next();
+             
+
+        	System.out.println ( " MyHttpClient.doMapResponseToAddressResp<" + element.via + ">" );
+        	System.out.println ( " MyHttpClient.doMapResponseToAddressResp<" + element.objectId + ">" );
+        	System.out.println ( " MyHttpClient.doMapResponseToAddressResp<" + element.via + ">" );
+        	
+         /*
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getCreatedAt <" + element.getCreatedAt() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.updatedAt    <" + element.getUpdatedAt() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getLastName  <" + element.getLastName() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getId        <" + element.getId() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getAge       <" + element.getAge() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getPhone     <" + element.getPhone() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getTel       <" + element.getTel() + ">" );
+        	System.out.println ( " MyHttpClient.doCallApi zz element.getNome       <" + element.getNome() + ">" );
+        */
+        	 
+        }
 		
 		
 		
