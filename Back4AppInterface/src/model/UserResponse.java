@@ -1,10 +1,16 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
 public class UserResponse {
-    private List<User> results;
+    public UserResponse() {
+		super();
+		results = new ArrayList<>();
+	}
+
+	private List<User> results;
 
     public List<User> getResults() {
         return results;

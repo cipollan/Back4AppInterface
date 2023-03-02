@@ -47,10 +47,9 @@ public class MagicMain extends Thread {
 			MyHttpGateWay myMyHttpGateWay = new MyHttpGateWay(catalogProps);
 		
 		 User user = new User();
-		 user.setId(001);
-		 user.setName("Andre");
-		 user.setAge(53);
-		 user.setPhone("123456789101112131415");
+		 user.setNome("Andre");
+		 user.setTel(23452);
+		 
 	      //Creating the ObjectMapper object
 		 
 		 GsonBuilder builder = new GsonBuilder(); 

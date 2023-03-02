@@ -1,8 +1,15 @@
 package model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User {
-	public String objectId;
-	public String createdAt;
-	public String updatedAt;
+	@JsonIgnore
+	private  String objectId;
+	
+	private String createdAt;
+	private String updatedAt;
+	private String cognome;
+	private int  tel;
 	
 	public synchronized String getUpdatedAt() {
 		return updatedAt;
@@ -22,8 +29,8 @@ public class User {
 	public synchronized void setObjectId(String objectId) {
 		this.objectId = objectId;
 	}
-	int Id;
-	String name;
+	 
+	
 	String nome;
 	public synchronized String getNome() {
 		return nome;
@@ -31,45 +38,19 @@ public class User {
 	public synchronized void setNome(String nome) {
 		this.nome = nome;
 	}
-	String lastName;
-	int age;
-	String phone;
-	String tel;
-	public synchronized int getId() {
-		return Id;
-	}
-	public synchronized void setId(int i) {
-		Id = i;
-	}
-	public synchronized String getName() {
-		return name;
-	}
-	public synchronized void setName(String name) {
-		this.name = name;
-	}
-	public synchronized String getLastName() {
-		return lastName;
-	}
-	public synchronized void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	public synchronized int getAge() {
-		return age;
-	}
-	public synchronized void setAge(int i) {
-		this.age = i;
-	}
-	public synchronized String getPhone() {
-		return phone;
-	}
-	public synchronized void setPhone(String string) {
-		this.phone = string;
-	}
-	public synchronized String getTel() {
+	
+	
+	public synchronized int getTel() {
 		return tel;
 	}
-	public synchronized void setTel(String tel) {
-		this.tel = tel;
+	public synchronized void setTel(int i) {
+		this.tel = i;
+	}
+	public String getCognome() {
+		return cognome;
+	}
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
 	}
 	 
 

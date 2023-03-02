@@ -5,22 +5,32 @@ import java.lang.reflect.Type;
 import java.net.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
+import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.xpath.*;
 
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpMessage;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.*;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -70,8 +80,6 @@ public class MyHttpClient<T> {
 	public synchronized void showHeaders() {
 		// Headers
         Header[] headers = httpResponse.getAllHeaders();
-        
-		 
 	}
 	
 	public synchronized int getErrCode() {
@@ -119,7 +127,7 @@ public class MyHttpClient<T> {
 	private HttpPost 	postStubMethod 		= null;
 	private HttpDelete 	deleteStubMethod	= null;
 	private HttpMessage httpMsg 			= null;
-	private CloseableHttpClient client 				= null;
+	private CloseableHttpClient client 		= null;
 	private URIBuilder builder 				= null;
 	private CloseableHttpResponse httpResponse 	= null;
 	
@@ -131,10 +139,10 @@ public class MyHttpClient<T> {
 	public MyHttpClient (String stubsApiBaseUri, Properties catalogProps) throws URISyntaxException {
 		super();
 		
-		this.stubsApiBaseUri  = stubsApiBaseUri;
-		this.catalogProps = catalogProps;
-		this.client = HttpClients.createDefault();
-		this.builder = new URIBuilder(stubsApiBaseUri);
+		this.stubsApiBaseUri  	= stubsApiBaseUri;
+		this.catalogProps 		= catalogProps;
+		this.client 			= HttpClients.createDefault();
+		this.builder 			= new URIBuilder(stubsApiBaseUri);
 		 
         String listStubsUri = builder.build().toString();
         
@@ -174,6 +182,44 @@ public class MyHttpClient<T> {
 	}
 	
 	
+	public int doCallApiDELETE()
+	{
+		errCode = 200;
+		System.out.println ( " BEGIN MyHttpClient.doCallApiDELETE   :" + stubsApiBaseUri );
+		
+		try 
+		{
+			System.out.println ( " BEGIN MyHttpClient.doGetApi deleteStubMethod:"  + this.deleteStubMethod );
+	        httpResponse  = client.execute(deleteStubMethod);
+	        
+	        errCode = httpResponse.getStatusLine().getStatusCode();
+	        System.out.println ( "  MyHttpClient.doCallApi 4 errCode:" + errCode  );
+	      
+	        if (errCode < 200 || errCode >= 300) {
+	           // Handle non-2xx status code
+	        	 System.out.println(errCode);
+	            return errCode;
+	        }
+	        
+	        showHeaders();
+	        String responseBody = EntityUtils.toString(httpResponse.getEntity());
+	        
+	        System.out.println ( " END MyHttpClient.doCallApiDELETE  <" + responseBody );
+	       
+		} catch (Exception e  ) 
+		{
+			// TODO Auto-generated catch block
+			errCode = -1;
+			e.printStackTrace();
+		}
+	    
+		System.out.println ( " END MyHttpClient.doCallApiDELETE  <" + errCode );
+		
+		return errCode;
+		
+	}
+	
+	
 	
 	public int _doMapResponseToAddressResp (String response, AddressResponse addrResponse ) 
 	{
@@ -183,11 +229,6 @@ public class MyHttpClient<T> {
 		Gson gsonL = new Gson();
 		addrResponse =   gsonL.fromJson(response, AddressResponse.class);
 		
-		 
-       
-       
-        
-        
         for (ListIterator<Address> iter =  addrResponse.getResults().listIterator(); iter.hasNext(); ) {
         	Address element = iter.next();
             // 1 - can call methods of element
@@ -214,7 +255,7 @@ public class MyHttpClient<T> {
 	}
 	
 	
-	public int doMapResponseToUser(String response, List<User> objList ) 
+	public int _doMapResponseToUser(String response, List<User> objList ) 
 	{
 		errCode = 200;
 		
@@ -257,6 +298,59 @@ public class MyHttpClient<T> {
 		return errCode;
 		
 	}
+	
+	
+	public int doPostApi(GenericResponse<T> ar, Object u, String strBody) 
+	{
+		errCode = 200;
+		System.out.println ( " >------------------------------<:"  );
+		System.out.println ( " 1-BEGIN MyHttpClient.doPostApi---<:" + stubsApiBaseUri );
+		System.out.println ( " 2-BEGIN MyHttpClient.doPostApi---<:" + u.getClass() );
+		System.out.println ( " 3-BEGIN MyHttpClient.doPostApi---<:" + strBody );
+		
+		
+		try 
+		{
+			System.out.println ( " 4-BEGIN MyHttpClient.doPostApi postStubMethod:"  + this.postStubMethod.getMethod() );
+	       
+		    // Set the request body
+	           
+	        StringEntity stringEntity = new StringEntity(strBody);
+	        this.postStubMethod.setEntity(stringEntity);
+	        this.postStubMethod.setHeader("Content-Type", "application/json");
+
+	
+		     System.out.println ( " 5-BEGIN MyHttpClient.doPostApi postStubMethod:"  + postStubMethod );
+		     httpResponse  = client.execute(postStubMethod);
+		     HttpEntity responseEntity = httpResponse.getEntity();
+		        
+		     errCode = httpResponse.getStatusLine().getStatusCode();
+		   
+	         System.out.println ( "  6-MyHttpClient.doPostApi 4 errCode:" + errCode  );
+	      
+	         if (errCode < 200 || errCode >= 300) 
+	         { 
+	        	 return errCode; 
+	         }
+	         
+	         // Print the response body
+		     String responseBody = EntityUtils.toString(responseEntity);
+	         System.out.println(" 7-responseBody DA SECONDA client.execute " + responseBody);
+	        
+	         errCode = doMapResponseToObj(responseBody, ar) ;
+	       
+		} catch (Exception e  ) 
+		{
+			// TODO Auto-generated catch block
+			errCode = -1;
+			e.printStackTrace();
+		}
+	    
+		System.out.println ( " END MyHttpClient.doPostApi  <" + errCode );
+		
+		return errCode;
+	}
+	
 	
 	public int doGetApi(GenericResponse<T> ar, Object u) 
 	{
@@ -303,7 +397,8 @@ public class MyHttpClient<T> {
 	{
 		
 		Gson gsonL = new Gson();
-		System.out.println ( " BEGIN MyHttpClient.doMapResponseToObj   :"  + respTObj.t.getClass());
+		System.out.println ( " BEGIN MyHttpClient.doMapResponseToObj              <"  + respTObj.t.getClass());
+		System.out.println ( " BEGIN MyHttpClient.doMapResponseToObj responseBody <"  + responseBody +">");
 		if (UserResponse.class == (respTObj.t.getClass()))
 		{
 			System.out.println ( " BEGIN MyHttpClient.doMapResponseToObj   dentro UserResponse "   );
@@ -440,5 +535,17 @@ public class MyHttpClient<T> {
 		this.httpMsg = httpMsg;
 	}
 	
+	private static String getFormDataAsString(Map<String, String> formData) {
+	    StringBuilder formBodyBuilder = new StringBuilder();
+	    for (Map.Entry<String, String> singleEntry : formData.entrySet()) {
+	        if (formBodyBuilder.length() > 0) {
+	            formBodyBuilder.append("&");
+	        }
+	        formBodyBuilder.append(URLEncoder.encode(singleEntry.getKey(), StandardCharsets.UTF_8));
+	        formBodyBuilder.append("=");
+	        formBodyBuilder.append(URLEncoder.encode(singleEntry.getValue(), StandardCharsets.UTF_8));
+	    }
+	    return formBodyBuilder.toString();
+	}
 
 }

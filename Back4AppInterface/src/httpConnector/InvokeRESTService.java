@@ -36,6 +36,7 @@ public class InvokeRESTService {
 			String credentials = user + ":" + password;
 			byte[] message = "hello world".getBytes("UTF-8");
 			String encoded = DatatypeConverter.printBase64Binary(message);
+			
 			System.out.println("getToken encoded=" + encoded);
 			
 			String encoding3 = DatatypeConverter.printBase64Binary(credentials.getBytes());

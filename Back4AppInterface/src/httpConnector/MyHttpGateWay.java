@@ -1,15 +1,26 @@
 package httpConnector;
 
 import java.util.ArrayList;
+
+
+
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Properties;
+
+import org.apache.http.client.methods.HttpDelete;
 
 import httputil.GenericResponse;
 import model.Address;
 import model.AddressResponse;
 import model.User;
 import model.UserResponse;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 
 public class MyHttpGateWay {
 	
@@ -82,65 +93,78 @@ public class MyHttpGateWay {
 		UserResponse uur = new UserResponse();
 		User u = new User();
 		GenericResponse<UserResponse> ur = new GenericResponse<UserResponse>(uur);
-		List<User> userList = new ArrayList<>();
+		 
 		errCode = myHttpClient.doGetApi(ur,  u) ;
 		
 		
 		for (ListIterator<User> iter =  ur.getT().getResults().listIterator(); iter.hasNext(); ) {
         	User element = iter.next();
-            // 1 - can call methods of element
-            // 2 - can use iter.remove() to remove the current element from the list
-            // 3 - can use iter.add(...) to insert a new element into the list
-            //     between element and iter->next()
-            // 4 - can use iter.set(...) to replace the current element
-
-        	System.out.println ( " MyHttpClient.doCallApi zz element <" + element.getObjectId() + ">" );
-         
-        	System.out.println ( " MyHttpClient.doCallApi zz element.getCreatedAt <" + element.getCreatedAt() + ">" );
-        	System.out.println ( " MyHttpClient.doCallApi zz element.updatedAt    <" + element.getUpdatedAt() + ">" );
-        	System.out.println ( " MyHttpClient.doCallApi zz element.getLastName  <" + element.getLastName() + ">" );
-        	System.out.println ( " MyHttpClient.doCallApi zz element.getId        <" + element.getId() + ">" );
-        	System.out.println ( " MyHttpClient.doCallApi zz element.getAge       <" + element.getAge() + ">" );
-        	System.out.println ( " MyHttpClient.doCallApi zz element.getPhone     <" + element.getPhone() + ">" );
-        	System.out.println ( " MyHttpClient.doCallApi zz element.getTel       <" + element.getTel() + ">" );
-        	System.out.println ( " MyHttpClient.doCallApi zz element.getNome       <" + element.getNome() + ">" );
-        
+            
+        	System.out.println ( ur.getT().getResults().size() + ")  MyHttpClient.doCallApi zz element <" + element.getObjectId() + ">" );
+        	System.out.println ( ur.getT().getResults().size() + ") MyHttpClient.doCallApi zz element.getCreatedAt <" + element.getCreatedAt() + ">" );
+        	System.out.println ( ur.getT().getResults().size() + ") MyHttpClient.doCallApi zz element.updatedAt    <" + element.getUpdatedAt() + ">" );
         	 
+        	System.out.println ( ur.getT().getResults().size() + ") MyHttpClient.doCallApi zz element.getTel       <" + element.getTel()       + ">" );
+        	System.out.println ( ur.getT().getResults().size() + ") MyHttpClient.doCallApi zz element.getNome      <" + element.getNome()      + ">" );
+        	
+        	User uu = new User();
+        	uu.setObjectId(element.getObjectId());
+    		MyHttpClient<UserResponse> myHttpClientAddrD = new MyHttpClient<UserResponse>(myUrl+"MyUser/"+uu.getObjectId(),catalogProps);
+    		errCode = myHttpClientAddrD.doCallApiDELETE() ;
+    		System.out.println ( " myHttpClientAddrD.doCallApiDELETE       <" + errCode + ">" );
         }
         
 		
-		
+		 
 		
 		Address a = new Address();
 		AddressResponse arr = new AddressResponse();
-		MyHttpClient<AddressResponse> myHttpClientAddr = new MyHttpClient<AddressResponse>(myUrl+"MyUser",catalogProps);
+		MyHttpClient<AddressResponse> myHttpClientAddr = new MyHttpClient<AddressResponse>(myUrl+"Address",catalogProps);
 		myHttpClientAddr.setStubsApiBaseUri(myUrl+"Address");
 		GenericResponse<AddressResponse> ar = new GenericResponse<AddressResponse>(arr);
 		errCode = myHttpClientAddr.doGetApi(ar,  a) ;
+		String objId = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"  ;
 		
-		for (ListIterator<Address> iter =  ar.getT().getResults().listIterator(); iter.hasNext(); ) {
+		
+		Address aa = new Address();
+		
+		for (ListIterator<Address> iter =  ar.getT().getResults().listIterator(); iter.hasNext(); ) 
+		{
         	Address element = iter.next();
              
-
-        	System.out.println ( " MyHttpClient.doMapResponseToAddressResp<" + element.via + ">" );
-        	System.out.println ( " MyHttpClient.doMapResponseToAddressResp<" + element.objectId + ">" );
-        	System.out.println ( " MyHttpClient.doMapResponseToAddressResp<" + element.via + ">" );
+        	System.out.println ( ar.getT().getResults().size() + ") ---------------------------------------<"  + ">" );
+        	System.out.println ( ar.getT().getResults().size() + ") MyHttpClient.doMapResponseToAddressResp<" + element.via + ">" );
+        	System.out.println ( ar.getT().getResults().size() + ") MyHttpClient.doMapResponseToAddressResp<" + element.objectId + ">" );
+        	System.out.println ( ar.getT().getResults().size() + ") MyHttpClient.doMapResponseToAddressResp<" + element.via + ">" );
         	
-         /*
-        	System.out.println ( " MyHttpClient.doCallApi zz element.getCreatedAt <" + element.getCreatedAt() + ">" );
-        	System.out.println ( " MyHttpClient.doCallApi zz element.updatedAt    <" + element.getUpdatedAt() + ">" );
-        	System.out.println ( " MyHttpClient.doCallApi zz element.getLastName  <" + element.getLastName() + ">" );
-        	System.out.println ( " MyHttpClient.doCallApi zz element.getId        <" + element.getId() + ">" );
-        	System.out.println ( " MyHttpClient.doCallApi zz element.getAge       <" + element.getAge() + ">" );
-        	System.out.println ( " MyHttpClient.doCallApi zz element.getPhone     <" + element.getPhone() + ">" );
-        	System.out.println ( " MyHttpClient.doCallApi zz element.getTel       <" + element.getTel() + ">" );
-        	System.out.println ( " MyHttpClient.doCallApi zz element.getNome       <" + element.getNome() + ">" );
-        */
-        	 
+        	objId = element.objectId;
+    		aa.setObjectId(objId);
+    		MyHttpClient<AddressResponse> myHttpClientAddrD = new MyHttpClient<AddressResponse>(myUrl+"Address/"+aa.getObjectId(),catalogProps);
+    		errCode = myHttpClientAddrD.doCallApiDELETE() ;   
         }
 		
+		UserResponse uuur = new UserResponse();
+		  
+		User user = new User();
+		
+		 
+		user.setNome	("AndreaSetNome");
+		user.setTel		(111111111);
+		user.setCognome("AndreaSetsetCognome");
 		
 		
+		 
+		uuur.getResults().add(user);
+		GenericResponse<UserResponse> uuurPost = new GenericResponse<UserResponse>(uuur);
+        ObjectMapper mapper = new ObjectMapper();
+		String strBody = mapper.writeValueAsString(user);
+		System.out.println (  ")-> MyHttpClient.doMapResponseToAddressResp<" + strBody + ">" );
+    	
+		MyHttpClient<UserResponse> myHttpClientUserPost = new MyHttpClient<UserResponse>(myUrl+"MyUser",catalogProps);
+		errCode = myHttpClientUserPost.doPostApi(uuurPost,user,strBody) ;   
+		
+		 
+		System.out.println (  ")-> MyHttpClient.doMapResponseToAddressResp<" + strBody + ">" );
 		
 		return errCode;
 	}
