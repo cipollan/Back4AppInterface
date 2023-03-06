@@ -1,8 +1,11 @@
 package model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Address {
 	
-	public String objectId;
+	@JsonIgnore
+	private String objectId;
 	
 	public String via;
 	public String civico;
@@ -10,7 +13,18 @@ public class Address {
 	public String comune;
 	public String provincia;
 	public String stato;
+	public String when;
 	
+
+	public synchronized String getWhen() {
+		return when;
+	}
+
+
+	public synchronized void setWhen(String when) {
+		this.when = when;
+	}
+
 
 	public Address() {
 		objectId = "";

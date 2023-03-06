@@ -76,6 +76,17 @@ public class MagicMain extends Thread {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+	 
+		
+		try {
+			Address a = new Address();
+			int errCode = myMyHttpGateWay.doCallRest3(a);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 			
 	}
 

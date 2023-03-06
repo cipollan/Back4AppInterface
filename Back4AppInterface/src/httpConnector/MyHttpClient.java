@@ -47,9 +47,19 @@ import model.AddressResponse;
 import model.User;
 import model.UserInfo;
 import model.UserResponse;
+import utilPackage.HttpMethod;
 
 public class MyHttpClient<T> {
 	
+	private HttpMethod httpMethod;
+	public synchronized HttpMethod getHttpMethod() {
+		return httpMethod;
+	}
+
+	public synchronized void setHttpMethod(HttpMethod httpMethod) {
+		this.httpMethod = httpMethod;
+	}
+
 	private T t;
 	
 	
@@ -166,6 +176,8 @@ public class MyHttpClient<T> {
         System.out.println ( " " + catalogProps.getProperty("app.appid") );
         System.out.println ( " " + catalogProps.getProperty("app.restapi.tag") );
         System.out.println ( " " + catalogProps.getProperty("app.restapi.key") );
+        
+        System.out.println ( "->>>>>" + HttpMethod.POST.getMtd() ); 
         
         
 	}
@@ -399,6 +411,7 @@ public class MyHttpClient<T> {
 		Gson gsonL = new Gson();
 		System.out.println ( " BEGIN MyHttpClient.doMapResponseToObj              <"  + respTObj.t.getClass());
 		System.out.println ( " BEGIN MyHttpClient.doMapResponseToObj responseBody <"  + responseBody +">");
+		System.out.println ( "->>>>>" + HttpMethod.POST ); 
 		if (UserResponse.class == (respTObj.t.getClass()))
 		{
 			System.out.println ( " BEGIN MyHttpClient.doMapResponseToObj   dentro UserResponse "   );
@@ -546,6 +559,11 @@ public class MyHttpClient<T> {
 	        formBodyBuilder.append(URLEncoder.encode(singleEntry.getValue(), StandardCharsets.UTF_8));
 	    }
 	    return formBodyBuilder.toString();
+	}
+
+	public void setHttpMsg(HttpMethod post) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

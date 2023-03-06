@@ -2,7 +2,7 @@ package httputil;
 
 import java.io.Serializable;
 
-import model.UserResponse;
+
 
 public class GenericResponse<T> implements Serializable{
 
