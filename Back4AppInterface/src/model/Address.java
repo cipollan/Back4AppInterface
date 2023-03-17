@@ -4,6 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Address {
 	
+	public Address(String via, String civico, String frazione, String comune, String provincia, String stato,
+			String when) {
+		super();
+		this.via = via;
+		this.civico = civico;
+		this.frazione = frazione;
+		this.comune = comune;
+		this.provincia = provincia;
+		this.stato = stato;
+		this.when = when;
+	}
+
+
 	@JsonIgnore
 	private String objectId;
 	

@@ -10,12 +10,13 @@ import java.util.ListIterator;
 import java.util.Properties;
 
 import org.apache.http.client.methods.HttpDelete;
+import org.apache.log4j.Logger;
 
+import httputil.AddressResponse;
 import httputil.GenericResponse;
+import httputil.UserResponse;
 import model.Address;
-import model.AddressResponse;
 import model.User;
-import model.UserResponse;
 import utilPackage.HttpMethod;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -27,7 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class MyHttpGateWay {
 	
  
-
+	static Logger logger = Logger.getLogger(MyHttpGateWay.class.getName()); 
 	//private String myUrl = "https://myonionlab.altervista.org/php/myserviceprovider.php?TagFunct=CHECKCONNECTION&MachineName=MachineName&UserName=USER_NAME&Pwd=Ciao";
 	//private String myUrl = "https://parseapi.back4app.com/classes/Access";
 	private String myUrl = "";
@@ -80,18 +81,19 @@ public class MyHttpGateWay {
 	public <T> int doCallRest3(Object o) throws Exception
 	{
 		int errCode = 200;
-		System.out.println ( " BEGIN MyHttpGateWay.doCallRest3  " + o.getClass()); 
+		Class<?> objClass = o.getClass();
+		System.out.println ( " BEGIN MyHttpGateWay.doCallRest3  " + objClass); 
 		
 		// Supponiamo Address
 		 
-		MyHttpClient<UserResponse> myHttpClient = new MyHttpClient<UserResponse>(myUrl+"Address",catalogProps);
+		MyHttpHub<UserResponse> myHttpClient = new MyHttpHub<UserResponse>(myUrl+objClass,catalogProps);
 		 
-		myHttpClient.setStubsApiBaseUri(myUrl+"Address");
+		myHttpClient.setStubsApiBaseUri(myUrl+objClass);
 		myHttpClient.setCatalogProps(catalogProps);
 		 
 		
 		System.out.println ( " END MyHttpGateWay.doCallRest3  " + errCode); 
-		myHttpClient.setStubsApiBaseUri(myUrl+"Address");
+		myHttpClient.setStubsApiBaseUri(myUrl+objClass);
 		myHttpClient.setCatalogProps(catalogProps);
 		myHttpClient.setHttpMethod(HttpMethod.POST);
 		errCode = myHttpClient.doCallApi();
@@ -100,7 +102,7 @@ public class MyHttpGateWay {
 	
 		Address a = new Address();
 		AddressResponse arr = new AddressResponse();
-		MyHttpClient<AddressResponse> myHttpClientAddr = new MyHttpClient<AddressResponse>(myUrl+"Address",catalogProps);
+		MyHttpHub<AddressResponse> myHttpClientAddr = new MyHttpHub<AddressResponse>(myUrl+"Address",catalogProps);
 		myHttpClientAddr.setStubsApiBaseUri(myUrl+"Address");
 		GenericResponse<AddressResponse> ar = new GenericResponse<AddressResponse>(arr);
 		myHttpClientAddr.setHttpMethod(HttpMethod.GET);
@@ -114,13 +116,13 @@ public class MyHttpGateWay {
         	Address element = iter.next();
              
         	System.out.println ( ar.getT().getResults().size() + ") ---------------------------------------<"  + ">" );
-        	System.out.println ( ar.getT().getResults().size() + ") MyHttpClient.doMapResponseToAddressResp<" + element.via + ">" );
-        	System.out.println ( ar.getT().getResults().size() + ") MyHttpClient.doMapResponseToAddressResp<" + element.getObjectId() + ">" );
-        	System.out.println ( ar.getT().getResults().size() + ") MyHttpClient.doMapResponseToAddressResp<" + element.via + ">" );
+        	System.out.println ( ar.getT().getResults().size() + ") MyHttpHub.doMapResponseToAddressResp<" + element.via + ">" );
+        	System.out.println ( ar.getT().getResults().size() + ") MyHttpHub.doMapResponseToAddressResp<" + element.getObjectId() + ">" );
+        	System.out.println ( ar.getT().getResults().size() + ") MyHttpHub.doMapResponseToAddressResp<" + element.via + ">" );
         	
         	Object objId = element.getObjectId();
     		//aa.setObjectId(objId);
-    		//MyHttpClient<AddressResponse> myHttpClientAddrD = new MyHttpClient<AddressResponse>(myUrl+"Address/"+aa.getObjectId(),catalogProps);
+    		//MyHttpHub<AddressResponse> myHttpClientAddrD = new MyHttpHub<AddressResponse>(myUrl+"Address/"+aa.getObjectId(),catalogProps);
     		//errCode = myHttpClientAddrD.doCallApiDELETE() ;   
         }
 		
@@ -154,21 +156,21 @@ public class MyHttpGateWay {
 		GenericResponse<AddressResponse> uuurPost = new GenericResponse<AddressResponse>(aaar);
         ObjectMapper mapper = new ObjectMapper();
 		String strBody = mapper.writeValueAsString(address);
-		System.out.println (  ")-> MyHttpClient.doMapResponseToAddressResp<" + strBody + ">" );
+		System.out.println (  ")-> MyHttpHub.doMapResponseToAddressResp<" + strBody + ">" );
     	
-		MyHttpClient<AddressResponse> myHttpClientUserPost = new MyHttpClient<AddressResponse>(myUrl+"Address",catalogProps);
+		MyHttpHub<AddressResponse> myHttpClientUserPost = new MyHttpHub<AddressResponse>(myUrl+"Address",catalogProps);
 		errCode = myHttpClientUserPost.doPostApi(uuurPost,address,strBody) ;   
-		System.out.println (  ")-> MyHttpClient.doMapResponseToAddressResp<" + strBody + ">" );
+		System.out.println (  ")-> MyHttpHub.doMapResponseToAddressResp<" + strBody + ">" );
 		
 		return errCode;
 	}
 	
-	public <T> int doCallRest2() throws Exception
+	public <T> int doCallRest2(Object o) throws Exception
 	{
 		int errCode = 200;
 		System.out.println ( " BEGIN MyHttpGateWay.doCallRest2  " ); 
 		 
-		MyHttpClient<UserResponse> myHttpClient = new MyHttpClient<UserResponse>(myUrl+"MyUser",catalogProps);
+		MyHttpHub<UserResponse> myHttpClient = new MyHttpHub<UserResponse>(myUrl+"MyUser",catalogProps);
 		 
 		myHttpClient.setStubsApiBaseUri(myUrl+"MyUser");
 		myHttpClient.setCatalogProps(catalogProps);
@@ -190,16 +192,16 @@ public class MyHttpGateWay {
 		for (ListIterator<User> iter =  ur.getT().getResults().listIterator(); iter.hasNext(); ) {
         	User element = iter.next();
             
-        	System.out.println ( ur.getT().getResults().size() + ")  MyHttpClient.doCallApi zz element <" + element.getObjectId() + ">" );
-        	System.out.println ( ur.getT().getResults().size() + ") MyHttpClient.doCallApi zz element.getCreatedAt <" + element.getCreatedAt() + ">" );
-        	System.out.println ( ur.getT().getResults().size() + ") MyHttpClient.doCallApi zz element.updatedAt    <" + element.getUpdatedAt() + ">" );
+        	System.out.println ( ur.getT().getResults().size() + ")  MyHttpHub.doCallApi zz element <" + element.getObjectId() + ">" );
+        	System.out.println ( ur.getT().getResults().size() + ") MyHttpHub.doCallApi zz element.getCreatedAt <" + element.getCreatedAt() + ">" );
+        	System.out.println ( ur.getT().getResults().size() + ") MyHttpHub.doCallApi zz element.updatedAt    <" + element.getUpdatedAt() + ">" );
         	 
-        	System.out.println ( ur.getT().getResults().size() + ") MyHttpClient.doCallApi zz element.getTel       <" + element.getTel()       + ">" );
-        	System.out.println ( ur.getT().getResults().size() + ") MyHttpClient.doCallApi zz element.getNome      <" + element.getNome()      + ">" );
+        	System.out.println ( ur.getT().getResults().size() + ") MyHttpHub.doCallApi zz element.getTel       <" + element.getTel()       + ">" );
+        	System.out.println ( ur.getT().getResults().size() + ") MyHttpHub.doCallApi zz element.getNome      <" + element.getNome()      + ">" );
         	
         	User uu = new User();
         	uu.setObjectId(element.getObjectId());
-    		MyHttpClient<UserResponse> myHttpClientAddrD = new MyHttpClient<UserResponse>(myUrl+"MyUser/"+uu.getObjectId(),catalogProps);
+    		MyHttpHub<UserResponse> myHttpClientAddrD = new MyHttpHub<UserResponse>(myUrl+o.getClass().getSimpleName()+"/"+uu.getObjectId(),catalogProps);
     		errCode = myHttpClientAddrD.doCallApiDELETE() ;
     		System.out.println ( " myHttpClientAddrD.doCallApiDELETE       <" + errCode + ">" );
         }
@@ -215,13 +217,13 @@ public class MyHttpGateWay {
 		GenericResponse<UserResponse> uuurPost = new GenericResponse<UserResponse>(uuur);
         ObjectMapper mapper = new ObjectMapper();
 		String strBody = mapper.writeValueAsString(user);
-		System.out.println (  ")-> MyHttpClient.doMapResponseToAddressResp<" + strBody + ">" );
+		System.out.println (  ")-> MyHttpHub.doMapResponseToAddressResp<" + strBody + ">" );
     	
-		MyHttpClient<UserResponse> myHttpClientUserPost = new MyHttpClient<UserResponse>(myUrl+"MyUser",catalogProps);
+		MyHttpHub<UserResponse> myHttpClientUserPost = new MyHttpHub<UserResponse>(myUrl+o.getClass().getSimpleName(),catalogProps);
 		errCode = myHttpClientUserPost.doPostApi(uuurPost,user,strBody) ;   
 		
 		 
-		System.out.println (  ")-> MyHttpClient.doMapResponseToAddressResp<" + strBody + ">" );
+		System.out.println (  ")-> MyHttpHub.doMapResponseToAddressResp<" + strBody + ">" );
 		
 		return errCode;
 	}
@@ -242,6 +244,70 @@ public class MyHttpGateWay {
 		this.catalogProps = catalogProps;
 	}
 	
+	
+	public <T> int doPOST(Object o) throws Exception
+	{
+		int errCode = 200;
+		 
+		System.out.println ( " BEGIN MyHttpGateWay.doPOST kk ---<" + o.getClass().getSimpleName()); 
+		
+		MyHttpHub<UserResponse> myHttpClient = new MyHttpHub<UserResponse>(myUrl+o.getClass().getSimpleName(),catalogProps);
+		 
+		myHttpClient.setStubsApiBaseUri(myUrl+o.getClass().getSimpleName());
+		myHttpClient.setCatalogProps(catalogProps);
+		myHttpClient.setHttpMethod(HttpMethod.POST);
+		errCode = myHttpClient.doPostApi(o);
+		
+		System.out.println ( " END MyHttpGateWay.doCallRest2  " + errCode); 
+		
+		
+		return errCode;
+	}
+	
+	public  <T> int doGET(GenericResponse<T> response,Object o) throws Exception
+	{
+		logger.debug ( " BEGIN MyHttpHub.doGET   :" + o.getClass());
+		 
+		int errCode = 200;
+		logger.debug ( " BEGIN MyHttpGateWay.doGET  " + o.getClass()); 
+		logger.debug ( " BEGIN MyHttpGateWay.doGET  " + o.toString()); 
+		
+		MyHttpHub<T> myHttpClient = new MyHttpHub<T>(myUrl+o.getClass().getSimpleName(),catalogProps);
+		 
+		myHttpClient.setStubsApiBaseUri(myUrl+o.getClass().getSimpleName());
+		myHttpClient.setCatalogProps(catalogProps);
+		myHttpClient.setHttpMethod(HttpMethod.GET);
+		 
+		errCode = myHttpClient.doGetApi(response, o);
+		
+		logger.debug ( " BEGIN MyHttpHub.doGET   ErrCode :" + errCode);
+		
+		return  errCode;
+	}
+	
+	
+	
+	
+	public int  doUPDATE(Object o) throws Exception
+	{
+		 
+		int errCode = 200;
+		System.out.println ( " BEGIN MyHttpGateWay.doUPDATE <" + o.getClass()); 
+		System.out.println ( " BEGIN MyHttpGateWay.doUPDATE <" + o.toString()); 
+		return errCode;
+	}
+	
+	public int doDELETE(Object o) throws Exception
+	{
+		 
+		int errCode = 200;
+		System.out.println ( " BEGIN MyHttpGateWay.doDELETE <" + o.getClass()); 
+		System.out.println ( " BEGIN MyHttpGateWay.doDELETE <" + o.toString()); 
+		return errCode;
+	}
+	
+	
+ 
 	
 
 }

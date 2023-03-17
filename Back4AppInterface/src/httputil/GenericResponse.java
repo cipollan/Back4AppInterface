@@ -14,8 +14,8 @@ public class GenericResponse<T> implements Serializable{
 
 	
 
-	private GenericResponse() {
-		// TODO Auto-generated constructor stub
+	public GenericResponse() {
+		
 	}
 
 
