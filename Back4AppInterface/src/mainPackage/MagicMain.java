@@ -35,7 +35,9 @@ public class MagicMain extends Thread {
 		
 		logger.debug ( " BEGIN MagicMain ");
 		
-		String log4jConfigFile = System.getProperty("user.dir") + File.separator + "log4j.properties";
+		String log4jConfigFile = System.getProperty("user.dir") + File.separator + "resource\\log4j.properties";
+		logger.debug ( " BEGIN MagicMain log4jConfigFile:" + log4jConfigFile);
+		
         PropertyConfigurator.configure(log4jConfigFile);
         
     
@@ -45,7 +47,10 @@ public class MagicMain extends Thread {
 		String appConfigPath = rootPath + "config.properties";
 		String catalogConfigPath = rootPath + "catalog";
 		
-		System.out.println ("MagicMain "  );
+		appConfigPath = System.getProperty("user.dir") + File.separator + "resource\\config.properties";
+		
+		System.out.println ("MagicMain appConfigPath:"  + appConfigPath );
+		System.out.println ("MagicMain rootPath:"  + rootPath );
 		 
 		Properties appProps = new Properties();
 		appProps.load(new FileInputStream(appConfigPath));
@@ -247,7 +252,7 @@ public class MagicMain extends Thread {
 				
 				
 		
-		 
+				System.out.println ("MagicMain rootPath:"  + rootPath );
         logger.info ( "------------------<" + HttpMethod.POST); 
         logger.info ( "------------------<" + HttpMethod.GET); 
         logger.info ( "------------------<" + HttpMethod.UPDATE); 
