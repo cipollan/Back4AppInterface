@@ -1,0 +1,12 @@
+ConnectionString connectionString = new ConnectionString("mongodb+srv://cipollan:<password>@cluster0.53g76t2.mongodb.net/?retryWrites=true&w=majority");
+MongoClientSettings settings = MongoClientSettings.builder()
+        .applyConnectionString(connectionString)
+        .serverApi(ServerApi.builder()
+            .version(ServerApiVersion.V1)
+            .build())
+        .build();
+MongoClient mongoClient = MongoClients.create(settings);
+MongoDatabase database = mongoClient.getDatabase("test");
+
+
+https://eu-central-1.aws.data.mongodb-api.com/app/data-nrkpt/endpoint/data/v1
