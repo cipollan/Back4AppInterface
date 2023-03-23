@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="externalLibs/activation.jar"/>
+	<classpathentry kind="lib" path="externalLibs/commons-codec-1.11.jar"/>
+	<classpathentry kind="lib" path="externalLibs/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="externalLibs/gson-2.8.2.jar"/>
+	<classpathentry kind="lib" path="externalLibs/gson-2.9.0.jar"/>
+	<classpathentry kind="lib" path="externalLibs/gsonvalue-annotations-0.6.jar"/>
+	<classpathentry kind="lib" path="externalLibs/httpclient-4.5.14.jar"/>
+	<classpathentry kind="lib" path="externalLibs/httpcore-4.4.16.jar"/>
+	<classpathentry kind="lib" path="externalLibs/jackson-annotations-2.14.2.jar"/>
+	<classpathentry kind="lib" path="externalLibs/jackson-core-2.14.2.jar"/>
+	<classpathentry kind="lib" path="externalLibs/jackson-databind-2.14.2.jar"/>
+	<classpathentry kind="lib" path="externalLibs/java-diff-1.1.2.jar"/>
+	<classpathentry kind="lib" path="externalLibs/java-json.jar"/>
+	<classpathentry kind="lib" path="externalLibs/javax.activation-api-1.2.0.jar"/>
+	<classpathentry kind="lib" path="externalLibs/javax.mail.jar"/>
+	<classpathentry kind="lib" path="externalLibs/jaxb-api-2.4.0-b180830.0359.jar"/>
+	<classpathentry kind="lib" path="externalLibs/json-1.1.jar"/>
+	<classpathentry kind="lib" path="externalLibs/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="externalLibs/object-mapper-1.1.68.jar"/>
+	<classpathentry kind="lib" path="externalLibs/org.slf4j.api-1.7.2.jar"/>
+	<classpathentry kind="lib" path="externalLibs/rest-1.1.jar"/>
+	<classpathentry kind="lib" path="externalLibs/slf4j.jar"/>
+	<classpathentry kind="lib" path="resource"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/bson-2.7.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/bson-3.8.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/bson-3.12.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/mongodb-driver-3.12.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/mongodb-driver-core-3.12.12.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/jakarta.annotation-api-2.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/jakarta.el-api-5.0.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/jakarta.enterprise.cdi-api-4.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/jakarta.enterprise.lang-model-4.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/jakarta.inject-api-2.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/jakarta.interceptor-api-2.1.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
