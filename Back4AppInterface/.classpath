@@ -32,13 +32,14 @@
 	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/bson-2.7.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/bson-3.8.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/bson-3.12.12.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/mongodb-driver-3.12.12.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/mongodb-driver-core-3.12.12.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/jakarta.annotation-api-2.1.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/jakarta.el-api-5.0.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/jakarta.enterprise.cdi-api-4.0.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/jakarta.enterprise.lang-model-4.0.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/jakarta.inject-api-2.0.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/jakarta.interceptor-api-2.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/mongodb-driver-sync-3.8.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/mongodb-driver-core-4.9.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/mongodb-driver-core-3.8.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
