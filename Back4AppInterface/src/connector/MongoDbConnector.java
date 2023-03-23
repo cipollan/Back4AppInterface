@@ -15,7 +15,7 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 
 public class MongoDbConnector {
-    public static void main(String[] args) {
+    public static void doMonGoConnect(String  args) {
         // Replace the placeholder with your Atlas connection string
         String uri = "<connection string>";
 
