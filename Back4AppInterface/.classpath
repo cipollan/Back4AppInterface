@@ -41,5 +41,6 @@
 	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/mongodb-driver-sync-3.8.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/mongodb-driver-core-4.9.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/mongodb-driver-core-3.8.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Utente/git/Back4AppInterface/Back4AppInterface/externalLibs/mongo-java-driver-3.12.12.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
