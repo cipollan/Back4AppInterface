@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.Properties;
 import com.google.gson.Gson; 
 import com.google.gson.GsonBuilder;
+
+import connector.MongoDbConnector;
+
 import org.slf4j.Logger.*;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -249,9 +252,48 @@ public class MagicMain extends Thread {
 				}
 				 
 				
+				 MongoDbConnector nMongoDbConnector = new MongoDbConnector();
+				
+				 nMongoDbConnector.doMonGoConnect("nMongoDbConnector");
+				String nomeMiaBambina = "Angelica";
+				
+				 
+				
+				logger.info ( "------------------<" + nomeMiaBambina);
+                nomeMiaBambina = "Federica";
+				
+				logger.info ( "------------------<" + nomeMiaBambina);
+				
+				 nomeMiaBambina = "";
+				 
+				 int lato1 = 9;
+				 int lato2 = 23;
+
+                 int perimetro = 0;
+                 
+                 perimetro = lato2 + (lato1  * 2);
+                 
+                 if (lato2 >= (lato1  * 2)) 
+                 {
+                	 logger.info ( "ERRORE :" + lato2);
+      	         }
+                 else
+                 {
+    			     logger.info ( "------------------<" + nomeMiaBambina);
+    			     logger.info ( "lato1:" + lato1);
+    			     logger.info ( "lato2:" + lato2);
+    			     logger.info ( "perimetro:" + perimetro);
+                 }
+                	 
+				 
+					
+			    
+			    // logger.info ( "------------------<" + nomeMiaBambina);
+			    // logger.info ( "------------------<" + nomeMiaBambina);
+			     
+					
 				
 				
-		
 				System.out.println ("MagicMain rootPath:"  + rootPath );
         logger.info ( "------------------<" + HttpMethod.POST); 
         logger.info ( "------------------<" + HttpMethod.GET); 
