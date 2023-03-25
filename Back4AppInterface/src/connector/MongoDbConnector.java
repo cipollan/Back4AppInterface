@@ -13,8 +13,9 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-
+import com.mongodb.client.model.Filters;
 import mainPackage.MagicMain;
 
 public class MongoDbConnector {
@@ -29,10 +30,36 @@ public class MongoDbConnector {
 
     	logger.debug ( " BEGIN doMonGoConnect:" + uri );
     	
+    	
+    	 try  {
+    		 int id = 5;
+    		 MongoClient mongoClient = MongoClients.create(uri);
+             MongoDatabase database = mongoClient.getDatabase("sample_mflix");
+             MongoCollection<Document> collection = database.getCollection("movies");
+             //Document doc = collection.find(eq("title", "Back to the Future")).first();
+             
+             Document doc = collection.find(Filters.eq("_id", id)).first();
+             
+             if (doc != null) {
+                 System.out.println(doc.toJson());
+             } else {
+                 System.out.println("No matching documents found.");
+             }
+         }
+    	 finally
+    	 {
+    		 logger.debug ( " finally"     );
+    	 }
+    	 
+    	 
+    	 
+    	
         // Construct a ServerApi instance using the ServerApi.builder() method
+    	 // Construct a ServerApi instance using the ServerApi.builder() method
         ServerApi serverApi = ServerApi.builder()
                 .version(ServerApiVersion.V1)
                 .build();
+        
         
         logger.debug ( " BEGIN doMonGoConnect.serverApi:" + serverApi.toString() );
         
@@ -43,7 +70,8 @@ public class MongoDbConnector {
                 .build();
         
         logger.debug ( " BEGIN doMonGoConnect.settings:" + settings.toString() );
-
+        
+      
         // Create a new client and connect to the server
         try 
         {
