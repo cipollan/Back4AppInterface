@@ -26,7 +26,7 @@ public class MongoDbConnector {
         // Replace the placeholder with your Atlas connection string
     	logger.debug ( " BEGIN doMonGoConnect ");
     	
-    	String uri = "mongodb+srv://cipollan:Cippop8@Cippop8@@cluster0.53g76t2.mongodb.net/?retryWrites=true&w=majority";
+    	String uri = "mongodb+srv://cipollan:Cippop8%40Cippop8%40@cluster0.53g76t2.mongodb.net/?retryWrites=true&w=majority";
 
     	logger.debug ( " BEGIN doMonGoConnect<" + uri + ">");
     	
