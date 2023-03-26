@@ -28,31 +28,51 @@ public class MongoDbConnector {
     	
     	String uri = "mongodb+srv://cipollan:Cippop8@Cippop8@@cluster0.53g76t2.mongodb.net/?retryWrites=true&w=majority";
 
-    	logger.debug ( " BEGIN doMonGoConnect:" + uri );
+    	logger.debug ( " BEGIN doMonGoConnect<" + uri + ">");
     	
     	
     	 try  {
-    		 int id = 5;
-    		 MongoClient mongoClient = MongoClients.create(uri);
-             MongoDatabase database = mongoClient.getDatabase("sample_mflix");
-             MongoCollection<Document> collection = database.getCollection("movies");
-             //Document doc = collection.find(eq("title", "Back to the Future")).first();
+    		 		String id = "641c93658c80684391753e2c";
+    		 		logger.debug ("0dopo doc");
+    		 		MongoClient mongoClient = MongoClients.create(uri);
+    		 		logger.debug ("1dopo doc");
+    		 		MongoDatabase database = mongoClient.getDatabase("Cluster0");
+    		 		logger.debug ("2dopo doc");
+    		 		MongoCollection<Document> collection = database.getCollection("MyCollection");
+    		 		logger.debug ("3dopo doc");
+    		 		//Document doc = collection.find(eq("title", "Back to the Future")).first();
              
-             Document doc = collection.find(Filters.eq("_id", id)).first();
+    		 		Document doc = collection.find(Filters.eq("_id", id)).first();
+    		 		logger.debug ("4dopo doc");
+    		 		
              
-             if (doc != null) {
-                 System.out.println(doc.toJson());
-             } else {
-                 System.out.println("No matching documents found.");
-             }
-         }
-    	 finally
-    	 {
-    		 logger.debug ( " finally"     );
-    	 }
+    		 		if (doc != null) 
+    		 		{
+    		 			logger.debug ("not null doc");
+    		 			logger.debug ("not null doc" + doc.toJson());
+    		 		} 
+    		 		else 
+    		 		{
+    		 			logger.debug ("No matching documents found.");
+    		 		}
+    	     } 
+    	 	catch (MongoException me) 
+ 	 		{
+    	 		logger.debug (" Exception:	" + me);
+ 	 		
+ 	 		}
+    	 	catch (Exception me) 
+ 	 		{
+    	 		logger.debug (" Exception:	" + me);
+     
+ 	 		}
+    	 	finally
+    	 	{
+    		   logger.debug ( " 1finally"     );
+    	 	}
     	 
     	 
-    	 
+    	 logger.debug ("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
     	
         // Construct a ServerApi instance using the ServerApi.builder() method
     	 // Construct a ServerApi instance using the ServerApi.builder() method
@@ -60,8 +80,14 @@ public class MongoDbConnector {
                 .version(ServerApiVersion.V1)
                 .build();
         
+        logger.debug ("BBBBBBBBBBBBBBBBBBBBBBBBBBBB");
         
-        logger.debug ( " BEGIN doMonGoConnect.serverApi:" + serverApi.toString() );
+         /*
+          
+        logger.debug ( " BEGIN doMonGoConnect.serverApi:" 
+        //+ serverApi.toString() 
+        
+        		);
         
 
         MongoClientSettings settings = MongoClientSettings.builder()
@@ -94,6 +120,8 @@ public class MongoDbConnector {
         {
         	System.out.println("finally");
         }
+        
+        */
     }
 }
 
