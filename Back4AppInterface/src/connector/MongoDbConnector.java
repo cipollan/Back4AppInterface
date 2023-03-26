@@ -26,14 +26,50 @@ public class MongoDbConnector {
         // Replace the placeholder with your Atlas connection string
     	logger.debug ( " BEGIN doMonGoConnect ");
     	
-    	String uri = "mongodb+srv://cipollan:Cippop8%40Cippop8%40@cluster0.53g76t2.mongodb.net/?retryWrites=true&w=majority";
+    	String uri = "mongodb+srv://cipollan:Cippop8Cippop8@cluster0.53g76t2.mongodb.net/?retryWrites=true&w=majority";
 
     	logger.debug ( " BEGIN doMonGoConnect<" + uri + ">");
+
+    	try  {
+    		
+    		logger.debug (" 1----------------------------:	" );
     	
+    		ConnectionString connectionString = new ConnectionString("mongodb+srv://cipollan:Cippop8Cippop8@Cluster0.53g76t2.mongodb.net/?retryWrites=true&w=majority");
+    		
+    		logger.debug (" 2----------------------------:	" );
+    		
+    		MongoClientSettings settings = MongoClientSettings.builder()
+    				.applyConnectionString(connectionString)
+    				.serverApi(ServerApi.builder()
+    						.version(ServerApiVersion.V1)
+    						.build())
+    						.build();
+    		
+    		logger.debug (" 3----------------------------:	" );
+    		
+    		MongoClient mongoClient1 = MongoClients.create(settings);
+    		
+    		logger.debug (" 4----------------------------:	" );
+    		
+    		MongoDatabase database1 = mongoClient1.getDatabase("test");
+    		
+    		logger.debug (" 5----------------------------:	" );
+
+    	}
+    	catch (Exception me) 
+	 		{
+	 		logger.debug (" Exception:	" + me);
+ 
+	 		}
+	 	finally
+	 	{
+		   logger.debug ( " 1finally"     );
+	 	}
+
     	
     	 try  {
     		 		String id = "641c93658c80684391753e2c";
-    		 		logger.debug ("0dopo doc");
+    		 		logger.debug ("0-dopo doc");
     		 		MongoClient mongoClient = MongoClients.create(uri);
     		 		logger.debug ("1dopo doc");
     		 		MongoDatabase database = mongoClient.getDatabase("Cluster0");
