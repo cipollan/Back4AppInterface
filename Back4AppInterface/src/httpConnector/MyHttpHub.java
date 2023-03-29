@@ -43,7 +43,7 @@ import httputil.AddressResponse;
 import httputil.CertificateResponse;
 import httputil.GenericResponse;
 import httputil.UserResponse;
-import mainPackage.MagicMain;
+
 import model.Address;
 import model.User;
 import model.UserInfo;
@@ -652,3 +652,4 @@ public class MyHttpHub<T> {
 	}
 
 }
+
