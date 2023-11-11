@@ -1,4 +1,4 @@
-ConnectionString connectionString = new ConnectionString("mongodb+srv://cipollan:<password>@cluster0.53g76t2.mongodb.net/?retryWrites=true&w=majority");
+ConnectionString connectionString = new ConnectionString("mongodb+srv://admin:admin@cluster0.53g76t2.mongodb.net/?retryWrites=true&w=majority");
 MongoClientSettings settings = MongoClientSettings.builder()
         .applyConnectionString(connectionString)
         .serverApi(ServerApi.builder()

@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import connector.MongoDbConnector;
+import connector.MongoDbConnector2;
 
 import org.slf4j.Logger.*;
 import org.apache.log4j.Logger;
@@ -28,7 +29,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 
-public class MagicMain extends Thread {
+public class MagicMain   {
 	
 	
 	static Logger logger = Logger.getLogger(MagicMain.class.getName());  
@@ -255,6 +256,15 @@ public class MagicMain extends Thread {
 				 MongoDbConnector nMongoDbConnector = new MongoDbConnector();
 				
 				 nMongoDbConnector.doMonGoConnect("nMongoDbConnector");
+				 
+				 
+				 
+				 
+				 MongoDbConnector2 nMongoDbConnector2 = new MongoDbConnector2();
+					
+				 nMongoDbConnector2.doConnect("nMongoDbConnector");
+				 
+				 
 				String nomeMiaBambina = "Angelica";
 				
 				 
